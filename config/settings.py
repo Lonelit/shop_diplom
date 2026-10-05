@@ -144,3 +144,5 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # LOGIN_REDIRECT_URL='shop:main'
 # #куда перевести пользователя после выхода из учетки
 # LOGOUT_REDIRECT_URL='shop:main'
+
+CART_SESSION_ID = 'cart'

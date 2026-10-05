@@ -1,7 +1,8 @@
 from django.db import models
 from django.conf import settings
 from django.urls import reverse
-
+from django.core.validators import MinValueValidator
+from decimal import Decimal
 
 
 class Category(models.Model):
@@ -24,9 +25,16 @@ class Goods(models.Model):
     """
     Товары. Изображения храним в модели магаза (ограничение - 3 картинки)
     """
+    objects = models.Manager()
     title = models.CharField('название', max_length=200)
     text = models.TextField('описание')
-    price = models.FloatField()
+    price = models.DecimalField(
+        'цена',
+        max_digits=10,
+        decimal_places=2,
+        default=0.00,
+        validators=[MinValueValidator(Decimal('0.00'))]
+    )
     seller = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -56,6 +64,7 @@ class Goods(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+        verbose_name = 'товар'
         verbose_name_plural = 'товары'
 
     def __str__(self):

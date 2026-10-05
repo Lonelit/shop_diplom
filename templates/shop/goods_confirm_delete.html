@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Удаление товара{% endblock %}
+
+{% block content %}
+<section class="form-page">
+    <h1>Удалить товар?</h1>
+    <p>Товар "{{ goods.title }}" будет удален без возможности восстановления! </p>
+    <form method="post" class="content-form">
+        {% csrf_token %}
+        <button type="submit" class="danger">Удалить</button>
+        <a class="button secondary" href="{% url 'shop:goods_detail' goods.pk %}">Отмена</a>
+    </form>
+
+</section>
+{% endblock %}

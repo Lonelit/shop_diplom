@@ -7,8 +7,8 @@ class GoodsForm(forms.ModelForm):
     """
     class Meta:
         model = Goods
-        fields = ('title', 'text', 'category', 'image1', 'image2', 'image3')
+        fields = ('title', 'text', 'price', 'category', 'image1', 'image2', 'image3')
         widgets = {
             'text': forms.Textarea(attrs={'rows':8}),
-            'tags': forms.CheckboxSelectMultiple(),
+            'price': forms.NumberInput(attrs={'step': '0.01', 'class': 'form-control', 'placeholder': '0.00'}),
         }
