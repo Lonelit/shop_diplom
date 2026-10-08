@@ -1,0 +1,80 @@
+/* Основные стили страницы корзины */
+.cart-page {
+    padding: 20px 0;
+}
+
+/* Стили таблицы */
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.cart-table th {
+    padding: 10px;
+    border-bottom: 2px solid #ccc;
+    text-align: left;
+}
+
+.cart-table td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Итоговая строка */
+.cart-total-row {
+    font-weight: bold;
+    background-color: #f9f9f9;
+}
+
+.cart-table .total-label {
+    text-align: right;
+}
+
+.cart-table .total-price {
+    color: green;
+}
+
+/* Кнопки действий */
+.cart-actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-secondary {
+    padding: 10px 20px;
+    background: #eee;
+    text-decoration: none;
+    color: #333;
+    border-radius: 4px;
+}
+
+.btn-success {
+    padding: 10px 20px;
+    background: green;
+    text-decoration: none;
+    color: white;
+    border-radius: 4px;
+}
+
+.btn-remove {
+    color: red;
+    text-decoration: none;
+}
+
+/* Стили для пустой корзины */
+.cart-empty {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.cart-empty-text {
+    font-size: 18px;
+    color: #666;
+}
+
+.btn-shop-link {
+    color: blue;
+    text-decoration: underline;
+}

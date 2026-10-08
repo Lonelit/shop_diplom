@@ -4,14 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Магазин{% endblock %}</title>
+    <title>{% block title %}Cyber Bay{% endblock %}</title>
+
+    <!-- Главные неоновые стили сайта для геймеров -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <!-- Встроенный JS-скрипт проекта -->
     <script src="{% static 'js/main.js' %}" defer></script>
+
+    <!-- Блок, куда другие страницы (например, корзина) будут добавлять свои личные CSS-файлы -->
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
     <header class="site-header">
         <nav class="container nav">
-            <a class="logo" href="{% url 'shop:goods_list' %}">Магазин</a>
+            <a class="logo" href="{% url 'shop:main' %}">TEAMMATE BAY</a>
 
             <div class="nav-links">
                 <a href="{% url 'shop:goods_list' %}">Товары</a>
@@ -19,7 +26,8 @@
                 {% if user.is_authenticated %}
                     <a href="{% url 'shop:goods_create' %}">Добавить товар</a>
                     <a href="{% url 'shop:my_goods' %}">Мои товары</a>
-                    <a href="{% url 'users:profile' user.pk%}">Профиль продавца</a>
+                    <a href="{% url 'users:profile' user.pk %}">Профиль продавца</a>
+                    <a href="{% url 'shop:cart_detail' %}" class="nav-cart">🎒 Корзина</a>
                     <form class="inline-form" method="post" action="{% url 'users:logout' %}">
                         {% csrf_token %}
                         <button type="submit" class="link-button">Выйти</button>

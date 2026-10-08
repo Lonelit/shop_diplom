@@ -1,0 +1,16 @@
+.btn-cyber {
+    background: linear-gradient(45deg, var(--neon-purple), #7b2cbf);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 4px;
+    box-shadow: 0 0 10px var(--glow-purple);
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.2s;
+}
+.btn-cyber:hover {
+    box-shadow: 0 0 18px var(--neon-purple);
+    transform: translateY(-1px);
+}

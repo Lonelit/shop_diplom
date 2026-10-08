@@ -1,15 +1,28 @@
 {% extends 'base.html' %}
-{% block title %}Удаление товара{% endblock %}
+{% load static %}
+
+{% block title %}Удаление лота — TEAMMATE BAY{% endblock %}
 
 {% block content %}
-<section class="form-page">
-    <h1>Удалить товар?</h1>
-    <p>Товар "{{ goods.title }}" будет удален без возможности восстановления! </p>
-    <form method="post" class="content-form">
-        {% csrf_token %}
-        <button type="submit" class="danger">Удалить</button>
-        <a class="button secondary" href="{% url 'shop:goods_detail' goods.pk %}">Отмена</a>
-    </form>
-
+<section class="delete-page-container">
+    <div class="delete-warning-card">
+        <div class="warning-icon">⚠️</div>
+        <h1 class="delete-title">Критическое действие</h1>
+        
+        <p class="delete-text">
+            Вы собираетесь безвозвратно удалить игровой лот: <br>
+            <strong class="target-product-name">«{{ goods.title }}»</strong>
+        </p>
+        
+        <p class="delete-subtext">Это действие нельзя будет отменить. Данные будут стерты из базы данных сервера.</p>
+        
+        <form method="post" class="cyber-delete-form">
+            {% csrf_token %}
+            <div class="delete-actions-row">
+                <button type="submit" class="btn-danger">Уничтожить лот</button>
+                <a class="btn-secondary" href="{% url 'shop:goods_detail' goods.pk %}">Отмена</a>
+            </div>
+        </form>
+    </div>
 </section>
 {% endblock %}

@@ -1,10 +1,97 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
 
-</body>
-</html>
+{% block title %}{{ goods.title }} — TEAMMATE BAY{% endblock %}
+
+{% block content %}
+<div class="product-detail-container">
+
+    <!-- Левая колонка: Игровые скриншоты / изображения товара -->
+    <div class="product-gallery">
+        <div class="main-image-box">
+            {% if goods.image1 %}
+                <img src="{{ goods.image1.url }}" alt="{{ goods.title }}" class="responsive-img main-img">
+            {% else %}
+                <div class="no-image-placeholder">📷 Скриншот отсутствует</div>
+            {% endif %}
+        </div>
+
+        <!-- Дополнительные скриншоты (если загружены) -->
+        {% if goods.image2 or goods.image3 %}
+            <div class="sub-images-grid">
+                {% if goods.image2 %}
+                    <div class="sub-image-box">
+                        <img src="{{ goods.image2.url }}" alt="Скриншот 2" class="responsive-img">
+                    </div>
+                {% endif %}
+                {% if goods.image3 %}
+                    <div class="sub-image-box">
+                        <img src="{{ goods.image3.url }}" alt="Скриншот 3" class="responsive-img">
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Правая колонка: Информация об игровом товаре -->
+    <div class="product-info-panel">
+        <div class="panel-header">
+            {% if goods.category %}
+                <span class="badge-category">{{ goods.category.name }}</span>
+            {% else %}
+                <span class="badge-category empty">Без категории</span>
+            {% endif %}
+            <span class="detail-date">📅 {{ goods.created_at|date:'d.m.Y H:i' }}</span>
+        </div>
+
+        <h1 class="detail-title">{{ goods.title }}</h1>
+
+        <div class="seller-card">
+            <span class="seller-label">Продавец:</span>
+            <a href="{% url 'users:profile' goods.seller.pk %}" class="seller-name">🎮 {{ goods.seller.username }}</a>
+        </div>
+
+        <div class="detail-description">
+            <h3>Описание лота:</h3>
+            <p>{{ goods.text|linebreaksbr }}</p>
+        </div>
+
+        <!-- Блок взаимодействия (Лайки и Корзина) -->
+        <div class="interaction-bar">
+            <div class="likes-block">
+                {% if user.is_authenticated %}
+                    <form method="post" action="{% url 'shop:goods_like' goods.pk %}" class="inline-form">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-like {% if user in goods.likes.all %}liked{% endif %}">
+                            {% if user in goods.likes.all %}❤️{% else %}🤍{% endif %}
+                        </button>
+                    </form>
+                {% endif %}
+                <span class="likes-counter">Лайков: <strong>{{ goods.like_count }}</strong></span>
+            </div>
+
+            {% if user.is_authenticated and user != goods.seller %}
+                <!-- Кнопка быстрой покупки/добавления в инвентарь -->
+                <form method="post" action="{% url 'shop:cart_add' goods.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-cyber">В корзину 🎒</button>
+                </form>
+            {% endif %}
+        </div>
+
+        <!-- Панель управления для создателя лота или модератора -->
+        {% if user == goods.seller or user.is_staff %}
+            <div class="management-zone">
+                <h4>Управление лотом</h4>
+                <div class="management-actions">
+                    {% if user == goods.seller %}
+                        <a href="{% url 'shop:goods_update' goods.pk %}" class="btn-secondary">Редактировать</a>
+                    {% endif %}
+                    <a href="{% url 'shop:goods_delete' goods.pk %}" class="btn-danger">Удалить лот</a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}

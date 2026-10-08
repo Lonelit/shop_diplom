@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ profile_user.username }} — Профиль игрока{% endblock %}
+
+{% block content %}
+<div class="profile-page-wrapper">
+    <header class="player-profile-card">
+        <div class="player-avatar-zone">
+            {% if profile_user.avatar %}
+                <img src="{{ profile_user.avatar.url }}" alt="{{ profile_user.username }}" class="player-avatar">
+            {% else %}
+                <div class="player-avatar-placeholder">👾</div>
+            {% endif %}
+        </div>
+
+        <div class="player-info-zone">
+            <div class="player-title-row">
+                <h1 class="player-username">{{ profile_user.username }}</h1>
+                <div class="player-badges">
+                    {% if profile_user.is_staff %}
+                        <span class="badge-role admin">GM / Админ</span>
+                    {% else %}
+                        <span class="badge-role trader">Трейдер</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <p class="player-meta">
+                <span>📧 Почта: <strong>{{ profile_user.email|default:"Скрыта" }}</strong></span>
+                <!-- 3. ИСПРАВЛЕНО: profile_user.date_joined вместо user.date_joined -->
+                {% if profile_user.date_joined %}
+                    <span class="meta-separator">|</span>
+                    <span>Создан: <strong>{{ profile_user.date_joined|date:"d.m.Y" }}</strong></span>
+                {% endif %}
+            </p>
+
+            {% if is_me %}
+                <div class="profile-actions">
+                    <a href="{% url 'shop:goods_create' %}" class="btn-cyber">Создать новый лот ⚔️</a>
+                    <a href="{% url 'users:profile_edit' %}" class="btn-secondary">Настройки профиля ⚙️</a>
+                </div>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- НИЖНИЙ БЛОК: Список инвентаря / Витрина товаров -->
+    <section class="player-inventory-section">
+        <h2 class="inventory-title">🎯 Витрина лотов от {{ profile_user.username }} ({{ goods|length }})</h2>
+        
+        <div class="products-list-horizontal">
+            {% for product in goods %}
+                <article class="product-card-horizontal">
+                    
+                    <div class="card-image-area">
+                        {% if product.image1 %}
+                            <img src="{{ product.image1.url }}" alt="{{ product.title }}" class="product-list-img">
+                        {% else %}
+                            <div class="no-img-placeholder">📷 No Image</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="card-info-area">
+                        <div class="card-info-header">
+                            {% if product.category %}
+                                <span class="badge-category">{{ product.category.name }}</span>
+                            {% else %}
+                                <span class="badge-category empty">Без категории</span>
+                            {% endif %}
+                            
+                            <span class="card-date">{{ product.created_at|date:'d.m.Y H:i' }}</span>
+                        </div>
+
+                        <h3 class="product-title">
+                            <a href="{% url 'shop:goods_detail' product.pk %}">{{ product.title }}</a>
+                        </h3>
+
+                        <p class="product-text">{{ product.text|truncatewords:25 }}</p>
+
+                        <div class="card-info-footer">
+                            <span class="product-price-tag">{{ product.price|default:"0" }} руб.</span>
+                            
+                            <div class="card-actions-wrapper">
+                                <span class="likes-count">❤️ {{ product.likes_count|default:0 }}</span>
+                                <a href="{% url 'shop:goods_detail' product.pk %}" class="btn-view-item">Осмотреть</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </article>
+            {% empty %}
+                <div class="empty-inventory-box">
+                    <p>У этого игрока пока нет активных лотов на торговой площадке.</p>
+                    {% if is_me %}
+                        <a href="{% url 'shop:goods_create' %}" class="auth-link">Выставить первый товар</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+</div>
+{% endblock %}

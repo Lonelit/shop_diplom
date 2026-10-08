@@ -5,7 +5,8 @@ from django.db.models import Q, Count
 from django.conf import settings
 from django.contrib.auth import login, authenticate, logout, get_user_model
 from shop.models import Goods
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, CustomUserUpdateForm
+from django.contrib import messages
 
 User = get_user_model()
 
@@ -65,10 +66,24 @@ def user_detail_view(request, pk):
     )
 
     context = {
-        # ИСПРАВЛЕНО: Компактное и понятное присвоение флага «Это мой профиль»
         'is_me': request.user == user,
-        'user': user,
+        'profile_user': user,
         'title': 'Информация о профиле',
         'goods': goods,
     }
     return render(request, template_name='users/profile.html', context=context)
+
+@login_required
+def profile_edit_view(request):
+    """Редактирование профиля текущего пользователя"""
+    if request.method == "POST":
+        # Передаем вашу форму CustomUserUpdateForm
+        form = CustomUserUpdateForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Профиль успешно обновлен!')
+            return redirect('users:profile', pk=request.user.pk)
+    else:
+        form = CustomUserUpdateForm(instance=request.user)
+
+    return render(request, 'users/profile_edit.html', context={'form': form, 'title': 'Настройки профиля'})

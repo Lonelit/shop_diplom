@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}Настройки профиля — TEAMMATE BAY{% endblock %}
 
 {% block content %}
 <section class="form-page-container">
     <div class="form-card">
-        <h1 class="form-title">⚡ {{ title }}</h1>
+        <h1 class="form-title">⚙️ {{ title }}</h1>
 
         <form method="post" enctype="multipart/form-data" class="cyber-form">
             {% csrf_token %}
-
+            
             {% if form.non_field_errors %}
                 <div class="form-errors">
                     {% for error in form.non_field_errors %}
@@ -19,23 +19,14 @@
                 </div>
             {% endif %}
 
-            <!-- Перебираем все поля формы по очереди -->
             {% for field in form %}
                 <div class="form-group">
                     <label for="{{ field.id_for_label }}" class="filter-label">
                         {{ field.label }}
-                        {% if field.field.required %}<span class="required-star">*</span>{% endif %}
                     </label>
-
-                    <!-- Рендерим поле с нужным CSS-классом -->
                     <div class="input-wrapper">
                         {{ field }}
                     </div>
-
-                    {% if field.help_text %}
-                        <small class="help-text">{{ field.help_text }}</small>
-                    {% endif %}
-
                     {% for error in field.errors %}
                         <span class="error-msg">⚠️ {{ error }}</span>
                     {% endfor %}
@@ -43,9 +34,8 @@
             {% endfor %}
 
             <div class="form-actions-row">
-                <button type="submit" class="btn-cyber">Сохранить</button>
-                <!-- Возвращаем пользователя на страницу каталога при отмене -->
-                <a class="btn-secondary" href="{% url 'shop:goods_list' %}">Отмена</a>
+                <button type="submit" class="btn-cyber">Сохранить изменения</button>
+                <a class="btn-secondary" href="{% url 'users:profile' request.user.pk %}">Назад к профилю</a>
             </div>
         </form>
     </div>

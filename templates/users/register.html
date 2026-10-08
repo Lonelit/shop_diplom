@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}Регистрация аккаунта — TEAMMATE BAY{% endblock %}
 
 {% block content %}
-<section class="form-page-container">
-    <div class="form-card">
-        <h1 class="form-title">⚡ {{ title }}</h1>
+<section class="auth-page-container">
+    <div class="auth-card">
+        <h1 class="auth-title">🎮 Создать аккаунт</h1>
+        <p class="auth-subtitle">Присоединяйся к сообществу игроков</p>
 
         <form method="post" enctype="multipart/form-data" class="cyber-form">
             {% csrf_token %}
@@ -19,7 +20,7 @@
                 </div>
             {% endif %}
 
-            <!-- Перебираем все поля формы по очереди -->
+            <!-- Цикл вывода полей формы регистрации -->
             {% for field in form %}
                 <div class="form-group">
                     <label for="{{ field.id_for_label }}" class="filter-label">
@@ -27,7 +28,6 @@
                         {% if field.field.required %}<span class="required-star">*</span>{% endif %}
                     </label>
 
-                    <!-- Рендерим поле с нужным CSS-классом -->
                     <div class="input-wrapper">
                         {{ field }}
                     </div>
@@ -42,12 +42,13 @@
                 </div>
             {% endfor %}
 
-            <div class="form-actions-row">
-                <button type="submit" class="btn-cyber">Сохранить</button>
-                <!-- Возвращаем пользователя на страницу каталога при отмене -->
-                <a class="btn-secondary" href="{% url 'shop:goods_list' %}">Отмена</a>
-            </div>
+            <button type="submit" class="btn-cyber auth-btn">Зарегистрироваться</button>
         </form>
+
+        <div class="auth-footer-links">
+            <span>Уже есть аккаунт?</span>
+            <a href="{% url 'users:login' %}" class="auth-link">Войти в систему</a>
+        </div>
     </div>
 </section>
 {% endblock %}

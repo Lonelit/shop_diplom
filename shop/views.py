@@ -145,7 +145,7 @@ def goods_update(request, pk):
 
     """
     goods = get_object_or_404(Goods, pk=pk)
-    if goods.author != request.user:
+    if goods.seller != request.user:
         messages.error(request, "Можно редактировать только свои товары")
         return redirect(goods)
     if request.method == 'POST':
@@ -184,7 +184,7 @@ def goods_like(request, pk):
     else:
         goods.likes.add(request.user)
 
-    return redirect(request.META.get('HTTP_REFERER', Goods.get_absolute_url()))
+    return redirect(request.META.get('HTTP_REFERER', goods.get_absolute_url()))
 
 @require_POST
 def cart_add(request, goods_id):

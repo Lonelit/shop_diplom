@@ -1,0 +1,1042 @@
+/* ==========================================================================
+   ЦВЕТОВЫЕ ПЕРЕМЕННЫЕ И БАЗОВЫЕ НАСТРОЙКИ
+   ========================================================================== */
+:root {
+    --bg-darker: #0d0e12;      /* Глубокий черный (фон сайта) */
+    --bg-dark: #161920;        /* Темно-серый (карточки, блоки, шапка) */
+    --neon-blue: #00f0ff;      /* Неоновый синий (акценты, ссылки) */
+    --neon-purple: #9d4edd;    /* Неоновый фиолетовый (кнопки, градиенты) */
+    --text-main: #e2e8f0;      /* Светло-серый текст (легко читать) */
+    --text-muted: #707e94;    /* Приглушенный текст */
+    --glow-blue: rgba(0, 240, 255, 0.25);
+    --glow-purple: rgba(157, 78, 221, 0.4);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-darker);
+    color: var(--text-main);
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Ограничитель ширины контента */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ==========================================================================
+   ШАПКА САЙТА (HEADER & NAV)
+   ========================================================================== */
+.site-header {
+    background-color: var(--bg-dark);
+    border-bottom: 2px solid var(--neon-purple);
+    box-shadow: 0 0 15px var(--glow-purple);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+}
+
+/* Логотип */
+.logo {
+    font-size: 50px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-decoration: none;
+    color: var(--neon-blue);
+    text-shadow: 0 0 8px var(--glow-blue);
+    transition: all 0.3s ease;
+}
+
+.logo:hover {
+    color: #html;
+    color: #fff;
+    text-shadow: 0 0 15px var(--neon-blue);
+}
+
+/* Навигационные ссылки */
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: var(--text-main);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+    color: var(--neon-blue);
+}
+
+/* Кнопка выхода из формы */
+.inline-form {
+    display: inline;
+}
+
+.link-button {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.link-button:hover {
+    color: #ff4a4a;
+}
+
+/* ==========================================================================
+   ОСНОВНОЙ КОНТЕНТ (MAIN)
+   ========================================================================== */
+.page {
+    flex: 1;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+/* Стили заголовков для внутренних страниц */
+h1, h2, h3 {
+    color: #fff;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+/* Общие стили ссылок на сайте */
+a {
+    color: var(--neon-blue);
+    transition: color 0.2s;
+}
+a:hover {
+    color: var(--neon-purple);
+}
+
+/* ==========================================================================
+   УВЕДОМЛЕНИЯ (MESSAGES)
+   ========================================================================== */
+.messages {
+    margin-bottom: 30px;
+}
+
+.message {
+    padding: 15px 20px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    background-color: var(--bg-dark);
+    border-left: 4px solid var(--text-muted);
+}
+
+/* Разделение по типам сообщений */
+.message.success {
+    border-color: #00ff66;
+    box-shadow: 0 0 10px rgba(0, 255, 102, 0.1);
+}
+
+.message.error {
+    border-color: #ff0055;
+    box-shadow: 0 0 10px rgba(255, 0, 85, 0.1);
+}
+
+.message.info {
+    border-color: var(--neon-blue);
+}
+
+/* ==========================================================================
+   ПОДВАЛ САЙТА (FOOTER)
+   ========================================================================== */
+.site-footer {
+    background-color: var(--bg-darker);
+    border-top: 1px solid #222633;
+    padding: 25px 0;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 14px;
+}
+.input-cyber, .select-cyber {
+    background-color: rgba(157, 78, 221, 0.15); /* Бледно-фиолетовый полупрозрачный цвет */
+    border: 1px solid rgba(157, 78, 221, 0.4);   /* Фиолетовая рамка */
+    color: #1a7a7d;
+    padding: 10px 15px;
+    border-radius: 4px;
+    outline: none;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+.filters-form {
+    background-color: var(--bg-dark);
+    border: 1px solid #222633;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 40px;
+
+    display: flex;         /* Включаем flex-режим */
+    flex-direction: row;   /* Строго в ряд */
+    flex-wrap: wrap;       /* Если экран совсем маленький (мобилка), перенесет элементы вниз */
+    gap: 15px;             /* Расстояние между блоками */
+    align-items: flex-end; /* Выравнивает поля и кнопки по нижней линии */
+    width: 100%;           /* Форма занимает всю ширину контента */
+}
+
+/* Каждый отдельный блок (Название + Поле) */
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;               /* Позволяет полям равномерно растягиваться в ряду */
+    min-width: 150px;      /* Минимальная ширина поля, чтобы текст не сжимался */
+}
+
+/* Блок с кнопками «Применить» и «Сбросить» */
+.filter-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 2px;    /* Небольшое выравнивание кнопок по высоте относительно полей */
+}
+.btn-cyber {
+    background: linear-gradient(45deg, var(--neon-purple), #7b2cbf);
+    color: #fff !important;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 4px;
+    box-shadow: 0 0 10px var(--glow-purple);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: background 0.3s, box-shadow 0.2s, transform 0.1s;
+}
+
+.btn-cyber:hover {
+    box-shadow: 0 0 18px var(--neon-purple);
+    transform: translateY(-1px);
+}
+
+.btn-cyber:active {
+    transform: translateY(1px);
+}
+
+/* Второстепенная кнопка (Сбросить, Отмена) */
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 20px;
+    background: #222633;
+    text-decoration: none;
+    color: var(--text-main) !important;
+    border: 1px solid rgba(157, 78, 221, 0.4);
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+    background: rgba(157, 78, 221, 0.15);
+    border-color: var(--neon-blue);
+    color: #fff !important;
+    box-shadow: 0 0 8px var(--glow-blue);
+}
+.form-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+}
+
+/* Карточка с формой по центру экрана */
+.form-card {
+    background-color: var(--bg-dark);
+    border: 1px solid #222633;
+    border-radius: 8px;
+    padding: 40px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.form-title {
+    font-size: 24px;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+}
+
+.cyber-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.required-star {
+    color: var(--neon-blue);
+    margin-left: 4px;
+}
+
+/* Автоматически стилизуем любые элементы ввода, сгенерированные Django */
+.input-wrapper input,
+.input-wrapper textarea,
+.input-wrapper select {
+    width: 100%;
+    background-color: rgba(157, 78, 221, 0.15);
+    border: 1px solid rgba(157, 78, 221, 0.4);
+    color: #fff;
+    padding: 12px 15px;
+    border-radius: 4px;
+    outline: none;
+    font-family: inherit;
+    font-size: 15px;
+    transition: all 0.2s ease;
+}
+
+.input-wrapper textarea {
+    min-height: 120px;
+    resize: vertical; /* Игрок сможет растягивать поле описания по высоте */
+}
+
+/* Эффект свечения полей при заполнении */
+.input-wrapper input:focus,
+.input-wrapper textarea:focus,
+.input-wrapper select:focus {
+    background-color: rgba(157, 78, 221, 0.25);
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 10px var(--glow-blue);
+}
+
+/* Стилизация чекбоксов, если они будут в форме */
+.input-wrapper input[type="checkbox"] {
+    width: auto;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+/* Вспомогательный текст и ошибки под полями */
+.help-text {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.error-msg, .error-text {
+    font-size: 13px;
+    color: #ff0055;
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+/* Блок общих ошибок формы */
+.form-errors {
+    background-color: rgba(255, 0, 85, 0.1);
+    border: 1px solid #ff0055;
+    border-radius: 4px;
+    padding: 10px 15px;
+}
+
+/* Ряд с кнопками внизу формы */
+.form-actions-row {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.form-actions-row .btn-cyber,
+.form-actions-row .btn-secondary {
+    flex: 1; /* Кнопки будут одинакового размера, красиво заполняя низ формы */
+}
+
+.product-detail-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    background-color: var(--bg-dark);
+    border: 1px solid #222633;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Мобильная адаптивность — на маленьких экранах колонки встанут друг под друга */
+@media (max-width: 768px) {
+    .product-detail-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Галерея изображений */
+.product-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.main-image-box {
+    background-color: var(--bg-darker);
+    border: 1px solid rgba(157, 78, 221, 0.3);
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+}
+
+.responsive-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+.main-img {
+    max-height: 450px;
+}
+
+.no-image-placeholder {
+    color: var(--text-muted);
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.sub-images-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.sub-image-box {
+    background-color: var(--bg-darker);
+    border: 1px solid #222633;
+    border-radius: 6px;
+    overflow: hidden;
+    max-height: 150px;
+}
+
+/* Правая информационная панель */
+.product-info-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.detail-date {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.detail-title {
+    font-size: 32px;
+    color: #fff;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #222633;
+    padding-bottom: 10px;
+}
+
+.seller-card {
+    background-color: var(--bg-darker);
+    padding: 12px 20px;
+    border-radius: 6px;
+    margin-bottom: 25px;
+    border-left: 3px solid var(--neon-blue);
+}
+
+.seller-label {
+    color: var(--text-muted);
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+.seller-name {
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--neon-blue);
+    text-shadow: 0 0 5px var(--glow-blue);
+}
+
+.detail-description {
+    flex: 1; /* Подталкивает кнопки управления вниз панели */
+    margin-bottom: 30px;
+}
+
+.detail-description h3 {
+    font-size: 16px;
+    text-transform: uppercase;
+    color: var(--neon-purple);
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+.detail-description p {
+    color: var(--text-main);
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+/* Панель лайков и покупки */
+.interaction-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-darker);
+    padding: 15px 20px;
+    border-radius: 6px;
+    margin-bottom: 25px;
+    border: 1px solid #222633;
+}
+
+.likes-block {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-like {
+    background: none;
+    border: 1px solid #33394d;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.btn-like:hover {
+    background-color: rgba(255, 74, 74, 0.1);
+    border-color: #ff4a4a;
+}
+
+.btn-like.liked {
+    border-color: #ff4a4a;
+    background-color: rgba(255, 74, 74, 0.15);
+}
+
+.likes-counter {
+    font-size: 14px;
+    color: var(--text-main);
+}
+
+/* Зона администрирования / удаления лота */
+.management-zone {
+    border-top: 1px dashed #33394d;
+    padding-top: 20px;
+}
+
+.management-zone h4 {
+    font-size: 13px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+}
+
+.management-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.management-actions .btn-secondary,
+.management-actions .btn-danger {
+    flex: 1;
+    text-align: center;
+}
+
+/* Кнопка опасного действия (Удаление) */
+.btn-danger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    background: linear-gradient(45deg, #d90429, #ef233c);
+    color: #fff !important;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(217, 4, 41, 0.3);
+    transition: all 0.2s ease;
+}
+
+.btn-danger:hover {
+    box-shadow: 0 0 18px rgba(217, 4, 41, 0.6);
+    transform: translateY(-1px);
+}
+.delete-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 0;
+}
+
+/* Карточка предупреждения с красным неоновым свечением */
+.delete-warning-card {
+    background-color: var(--bg-dark);
+    border: 1px solid #ff0055;
+    border-radius: 8px;
+    padding: 40px;
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(255, 0, 85, 0.2);
+}
+
+.warning-icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+    animation: pulse-warn 2s infinite;
+}
+
+.delete-title {
+    font-size: 24px;
+    color: #ff0055;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(255, 0, 85, 0.3);
+}
+
+.delete-text {
+    font-size: 16px;
+    color: var(--text-main);
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.target-product-name {
+    color: #fff;
+    font-size: 18px;
+    display: inline-block;
+    margin-top: 5px;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+}
+
+.delete-subtext {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 30px;
+}
+
+.cyber-delete-form {
+    width: 100%;
+}
+
+.delete-actions-row {
+    display: flex;
+    gap: 15px;
+}
+
+.delete-actions-row .btn-danger,
+.delete-actions-row .btn-secondary {
+    flex: 1;
+    padding: 12px 20px;
+}
+
+/* Анимация пульсации иконки предупреждения */
+@keyframes pulse-warn {
+    0% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 2px rgba(255, 0, 85, 0));
+    }
+    50% {
+        transform: scale(1.08);
+        filter: drop-shadow(0 0 8px #ff0055);
+    }
+    100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 2px rgba(255, 0, 85, 0));
+    }
+}
+.products-list-horizontal {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Отступ между горизонтальными постами */
+}
+
+/* Сама горизонтальная карточка лота с неоновой рамкой */
+.product-card-horizontal {
+    display: grid;
+    grid-template-columns: 200px 1fr; /* Левая колонка 200px под картинку, правая — всё остальное */
+    background-color: var(--bg-dark);
+    border: 1px solid rgba(157, 78, 221, 0.3); /* По умолчанию рамка бледно-фиолетовая */
+    border-radius: 6px;
+    overflow: hidden;
+    min-height: 160px;
+    transition: all 0.25s ease-in-out;
+}
+
+/* Эффект при наведении: Рамка загорается неоново-синим светом */
+.product-card-horizontal:hover {
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 15px var(--glow-blue), inset 0 0 10px rgba(0, 240, 255, 0.05);
+    transform: scale(1.005); /* Легкий геймерский zoom-эффект */
+}
+
+/* Стилизация левой колонки (Картинка) */
+.card-image-area {
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-darker);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid #222633;
+}
+
+.product-list-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Картинка заполнит блок без искажений */
+}
+
+.no-img-placeholder {
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Стилизация правой колонки (Информационная зона) */
+.card-info-area {
+    display: flex;
+    flex-direction: column;
+    padding: 15px 20px;
+    justify-content: space-between; /* Распределяет шапку текста и футер карточки */
+}
+
+.card-info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.card-meta {
+    display: flex;
+    gap: 15px;
+    font-size: 13px;
+}
+
+/* Специфические отступы для заголовка */
+.product-card-horizontal .product-title {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.product-card-horizontal .product-text {
+    font-size: 14px;
+    color: var(--text-main);
+    opacity: 0.85;
+    margin-bottom: 10px;
+}
+
+/* Нижняя строка внутри правой зоны (Цена + Лайки/Кнопка) */
+.card-info-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #222633;
+    padding-top: 10px;
+    margin-top: auto;
+}
+
+/* Тэг цены — сделаем его ярко-зеленым или неоново-фиолетовым */
+.product-price-tag {
+    font-size: 18px;
+    font-weight: 800;
+    color: #00ff66; /* Зеленый цвет для игровой валюты / цены */
+    text-shadow: 0 0 5px rgba(0, 255, 102, 0.2);
+}
+
+.card-actions-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Кнопка "Осмотреть лот" */
+.btn-view-item {
+    text-decoration: none;
+    background-color: var(--bg-darker);
+    border: 1px solid var(--neon-purple);
+    color: #fff !important;
+    padding: 6px 16px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
+}
+
+.btn-view-item:hover {
+    background-color: var(--neon-purple);
+    box-shadow: 0 0 10px var(--glow-purple);
+}
+
+/* Адаптивность для мобильных телефонов */
+@media (max-width: 600px) {
+    .product-card-horizontal {
+        grid-template-columns: 1fr; /* Колонки встанут в столбик на экранах смартфонов */
+    }
+    .card-image-area {
+        height: 180px;
+        border-right: none;
+        border-bottom: 1px solid #222633;
+    }
+}
+.auth-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0;
+}
+
+/* Карточка входа/регистрации */
+.auth-card {
+    background-color: var(--bg-dark);
+    border: 1px solid rgba(157, 78, 221, 0.3);
+    border-radius: 8px;
+    padding: 40px;
+    width: 100%;
+    max-width: 450px; /* Карточки авторизации чуть уже, чем форма товара */
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6);
+}
+
+.auth-title {
+    font-size: 26px;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.auth-subtitle {
+    font-size: 14px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Кнопка отправки формы на весь экран */
+.auth-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    margin-top: 10px;
+}
+
+/* Ссылки переключения внизу карточки */
+.auth-footer-links {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-muted);
+    border-top: 1px solid #222633;
+    padding-top: 15px;
+}
+
+.auth-link {
+    color: var(--neon-blue);
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: 5px;
+    transition: text-shadow 0.2s;
+}
+
+.auth-link:hover {
+    color: #fff;
+    text-shadow: 0 0 8px var(--neon-blue);
+}
+.profile-page-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+/* Карточка профиля */
+.player-profile-card {
+    display: flex;
+    gap: 30px;
+    background: linear-gradient(135deg, var(--bg-dark) 0%, #1c202b 100%);
+    border: 1px solid rgba(157, 78, 221, 0.25);
+    border-radius: 8px;
+    padding: 30px;
+    align-items: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* Аватар игрока */
+.player-avatar-zone {
+    width: 120px;
+    height: 120px;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: var(--bg-darker);
+    border: 2px solid var(--neon-blue);
+    box-shadow: 0 0 15px var(--glow-blue);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.player-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.player-avatar-placeholder {
+    font-size: 50px;
+}
+
+/* Информационная зона */
+.player-info-zone {
+    flex: 1;
+}
+
+.player-title-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.player-username {
+    font-size: 28px;
+    color: #fff;
+    margin-bottom: 0;
+}
+
+/* Бейджи ролей */
+.player-badges {
+    display: flex;
+    gap: 8px;
+}
+
+.badge-role {
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    padding: 3px 10px;
+    border-radius: 4px;
+}
+
+.badge-role.trader {
+    background-color: rgba(0, 240, 255, 0.1);
+    color: var(--neon-blue);
+    border: 1px solid var(--neon-blue);
+}
+
+.badge-role.admin {
+    background-color: rgba(255, 0, 85, 0.1);
+    color: #ff0055;
+    border: 1px solid #ff0055;
+    box-shadow: 0 0 8px rgba(255, 0, 85, 0.3);
+}
+
+.player-meta {
+    font-size: 14px;
+    color: var(--text-main);
+    opacity: 0.8;
+    margin-bottom: 20px;
+}
+
+.meta-separator {
+    color: var(--text-muted);
+    margin: 0 8px;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 15px;
+}
+
+/* Секция витрины инвентаря */
+.inventory-title {
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--neon-purple);
+    margin-bottom: 25px;
+    border-bottom: 1px solid #222633;
+    padding-bottom: 10px;
+}
+
+.empty-inventory-box {
+    text-align: center;
+    padding: 40px;
+    background-color: var(--bg-dark);
+    border: 1px dashed #33394d;
+    border-radius: 6px;
+    color: var(--text-muted);
+}
+
+.empty-inventory-box p {
+    margin-bottom: 15px;
+}
+
+/* Адаптивность для карточки профиля */
+@media (max-width: 550px) {
+    .player-profile-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    .player-title-row {
+        justify-content: center;
+    }
+}
+.empty-catalog-box {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px 0;
+}

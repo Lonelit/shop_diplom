@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Вход в систему — TEAMMATE BAY{% endblock %}
+
+{% block content %}
+<section class="auth-page-container">
+    <div class="auth-card">
+        <h1 class="auth-title">🔐 Авторизация</h1>
+        <p class="auth-subtitle">Введите свои игровые данные для входа</p>
+
+        <form method="post" class="cyber-form">
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+                <div class="form-errors">
+                    {% for error in form.non_field_errors %}
+                        <p class="error-text">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Цикл вывода полей формы авторизации -->
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}" class="filter-label">
+                        {{ field.label }}
+                    </label>
+                    
+                    <div class="input-wrapper">
+                        {{ field }}
+                    </div>
+
+                    {% for error in field.errors %}
+                        <span class="error-msg">⚠️ {{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="btn-cyber auth-btn">Войти в игру</button>
+        </form>
+
+        <div class="auth-footer-links">
+            <span>Впервые на торговой площадке?</span>
+            <a href="{% url 'users:register' %}" class="auth-link">Создать аккаунт</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

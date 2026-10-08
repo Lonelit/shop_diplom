@@ -1,10 +1,120 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
 
-</body>
-</html>
+{% block title %}Товары{% endblock %}
+
+{% block content %}
+<section class="catalog-header">
+    <h1>{{ page_heading }}</h1>
+    <p class="catalog-desc">{{ page_description }}</p>
+</section>
+
+{% if not hide_filters %}
+    <form class="filters-form" method="get">
+        <div class="filter-group">
+            <label class="filter-label">Поиск</label>
+            <input type="search" name="q" value="{{ query }}" placeholder="Название или описание..." class="input-cyber">
+        </div>
+
+        <div class="filter-group">
+            <label class="filter-label">Продавец</label>
+            <select name="seller" class="select-cyber">
+                <option value="">Все продавцы</option>
+                {% for seller in sellers %}
+                    <option value="{{ seller.id }}" {% if selected_seller == seller.id|stringformat:'s' %}selected{% endif %}>
+                        {{ seller.username }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label class="filter-label">Категория</label>
+            <select name="category" class="select-cyber">
+                <option value="">Все категории</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}" {% if selected_category == category.id|stringformat:'s' %}selected{% endif %}>
+                        {{ category.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label class="filter-label">Сортировка</label>
+            <select name="sort" class="select-cyber">
+                <option value="-created_at" {% if selected_sort == '-created_at' %}selected{% endif %}>Новички</option>
+                <option value="created_at" {% if selected_sort == 'created_at' %}selected{% endif %}>Сторожилы</option>
+                <option value="-price" {% if selected_sort == '-price' %}selected{% endif %}>Легендарные</option>
+                <option value="price" {% if selected_sort == 'price' %}selected{% endif %}>Доступные</option>
+                <option value="-likes" {% if selected_sort == '-likes' %}selected{% endif %}>Проверенные</option>
+                <option value="likes" {% if selected_sort == 'likes' %}selected{% endif %}>Нераскрученные</option>
+            </select>
+        </div>
+
+        <div class="filter-actions">
+            <button type="submit" class="btn-cyber">Применить</button>
+            <a class="btn-secondary" href="{% url 'shop:goods_list' %}">Сбросить</a>
+        </div>
+    </form>
+{% endif %}
+
+<!-- Сетка игровых товаров -->
+<section class="products-list-horizontal">
+    {% for product in goods %}  <!-- Переменная исправлена на 'goods' -->
+        <article class="product-card-horizontal">
+
+            <!-- Левая колонка: Картинка лота -->
+            <div class="card-image-area">
+                {% if product.image1 %}
+                    <img src="{{ product.image1.url }}" alt="{{ product.title }}" class="product-list-img">
+                {% else %}
+                    <div class="no-img-placeholder">📷 No Image</div>
+                {% endif %}
+            </div>
+
+            <!-- Правая колонка: Информация о товаре -->
+            <div class="card-info-area">
+                <div class="card-info-header">
+                    {% if product.category %}
+                        <span class="badge-category">{{ product.category.name }}</span>
+                    {% else %}
+                        <span class="badge-category empty">Без категории</span>
+                    {% endif %}
+
+                    <div class="card-meta">
+                        <a href="{% url 'users:profile' product.seller.pk %}" class="seller-link">🎮 {{ product.seller.username }}</a>
+                        <span class="card-date">{{ product.created_at|date:'d.m.Y H:i' }}</span>
+                    </div>
+                </div>
+
+                <h2 class="product-title">
+                    <a href="{% url 'shop:goods_detail' product.pk %}">{{ product.title }}</a>
+                </h2>
+
+                <p class="product-text">{{ product.text|truncatewords:35 }}</p>
+
+                <div class="card-info-footer">
+                    <!-- Заглушка цены. Если у вас поле называется по-другому, например price, замените на {{ product.price }} -->
+                    <span class="product-price-tag">{{ product.price|default:"0" }} руб.</span>
+
+                    <div class="card-actions-wrapper">
+                        <span class="likes-count">❤️ {{ product.likes_count|default:0 }}</span>
+                        <a href="{% url 'shop:goods_detail' product.pk %}" class="btn-view-item">Осмотреть лот</a>
+                    </div>
+                </div>
+            </div>
+
+        </article>
+    {% empty %}
+        <div class="empty-catalog-box">
+            <p class="no-products">У вас пока нет товаров. Добавим?</p>
+            {% if page_heading == 'Мои товары' %}
+                <div style="margin-top: 20px;">
+                    <a href="{% url 'shop:goods_create' %}" class="btn-cyber">Выставить первый товар ⚔️</a>
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+</section>
+{% endblock %}
