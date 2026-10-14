@@ -43,12 +43,12 @@
         <div class="filter-group">
             <label class="filter-label">Сортировка</label>
             <select name="sort" class="select-cyber">
-                <option value="-created_at" {% if selected_sort == '-created_at' %}selected{% endif %}>Новички</option>
-                <option value="created_at" {% if selected_sort == 'created_at' %}selected{% endif %}>Сторожилы</option>
+                <option value="-created_at" {% if selected_sort == '-created_at' %}selected{% endif %}>Новые лоты</option>
+                <option value="created_at" {% if selected_sort == 'created_at' %}selected{% endif %}>Давние лоты</option>
                 <option value="-price" {% if selected_sort == '-price' %}selected{% endif %}>Легендарные</option>
-                <option value="price" {% if selected_sort == 'price' %}selected{% endif %}>Доступные</option>
+                <option value="price" {% if selected_sort == 'price' %}selected{% endif %}>Недорогие</option>
                 <option value="-likes" {% if selected_sort == '-likes' %}selected{% endif %}>Проверенные</option>
-                <option value="likes" {% if selected_sort == 'likes' %}selected{% endif %}>Нераскрученные</option>
+                <option value="likes" {% if selected_sort == 'likes' %}selected{% endif %}>Малоизвестные</option>
             </select>
         </div>
 
@@ -95,7 +95,7 @@
                 <p class="product-text">{{ product.text|truncatewords:35 }}</p>
 
                 <div class="card-info-footer">
-                    <!-- Заглушка цены. Если у вас поле называется по-другому, например price, замените на {{ product.price }} -->
+                    <!-- Заглушка цены -->
                     <span class="product-price-tag">{{ product.price|default:"0" }} руб.</span>
 
                     <div class="card-actions-wrapper">

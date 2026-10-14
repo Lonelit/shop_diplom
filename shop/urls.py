@@ -25,4 +25,9 @@ urlpatterns = [
     path('cart/', views.cart_detail, name='cart_detail'),
     path('cart/add/<int:goods_id>/', views.cart_add, name='cart_add'),
     path('cart/remove/<int:goods_id>/', views.cart_remove, name='cart_remove'),
+
+    # 6. Маршруты для чата
+    path('goods/<int:goods_id>/start-chat/', views.start_chat, name='start_chat'),
+    path('chat/<int:room_id>/', views.chat_room_view, name='chat_room'),
+    path('chat/<int:room_id>/delete/', views.delete_chat_room, name='delete_chat_room'),
 ]

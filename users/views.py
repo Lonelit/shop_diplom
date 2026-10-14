@@ -13,6 +13,9 @@ User = get_user_model()
 
 def register_view(request):
     """ Регистрация пользователя """
+    if request.user.is_authenticated:
+        return redirect('shop:goods_list')
+
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
@@ -27,8 +30,11 @@ def register_view(request):
 
 def log_in_view(request):
     """ Авторизация пользователя """
+    # ЕСЛИ ПОЛЬЗОВАТЕЛЬ УЖЕ В маг — ОТПРАВЛЯЕМ ЕГО В КАТАЛОГ:
+    if request.user.is_authenticated:
+        return redirect('shop:goods_list')
+
     if request.method == "POST":
-        # ИСПРАВЛЕНО: Передаем POST-данные только при отправке формы
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
@@ -36,11 +42,9 @@ def log_in_view(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                # ИСПРАВЛЕНО: Безопасно берем LOGIN_REDIRECT_URL прямо из settings
                 url = request.GET.get('next', settings.LOGIN_REDIRECT_URL)
                 return redirect(url)
     else:
-        # Если запрос GET — показываем чистую форму
         form = AuthenticationForm()
 
     return render(request, template_name='users/login.html', context={'form': form})

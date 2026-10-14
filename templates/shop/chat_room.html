@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Чат с {{ interlocutor.username }} — TEAMMATE BAY{% endblock %}
+
+{% block content %}
+<div class="chat-page-container">
+    <div class="chat-window-card">
+        
+        <!-- Шапка чата в стиле FunPay -->
+        <header class="chat-header-panel">
+            <div class="chat-user-status">
+                <span class="online-indicator-dot"></span>
+                <span class="chat-with-label">Диалог с:</span>
+                <strong class="chat-username">{{ interlocutor.username }}</strong>
+            </div>
+            <div class="chat-header-actions" style="display: flex; align-items: center; gap: 20px;">
+                {% if room.goods %}
+                    <div class="chat-context-loot">
+                        Лот: <a href="{% url 'shop:goods_detail' room.goods.pk %}">«{{ room.goods.title }}»</a>
+                    </div>
+                {% endif %}
+
+            <form method="post" action="{% url 'shop:delete_chat_room' room.id %}" onsubmit="return confirm('Вы уверены, что хотите безвозвратно удалить этот диалог и всю историю переписки?');">
+                {% csrf_token %}
+                <button type="submit" class="btn-secondary" style="padding: 5px 12px; font-size: 12px; border-color: #ff0055; color: #ff0055 !important;">
+                    Закрыть диалог ❌
+                </button>
+            </form>
+            </div>
+
+        </header>
+
+        <!-- Зона вывода сообщений -->
+        <div class="chat-messages-box" id="chat-messages-log">
+            {% for msg in chat_messages %}
+                <div class="chat-msg-bubble {% if msg.sender == request.user %}my-msg{% else %}their-msg{% endif %}">
+                    <span class="msg-author">{{ msg.sender.username }}</span>
+                    <p class="msg-text">{{ msg.text }}</p>
+                    <span class="msg-time">{{ msg.created_at|date:"H:i" }}</span>
+                </div>
+            {% empty %}
+                <p class="chat-empty-notice" id="empty-notice">История сообщений пуста. Начните безопасную сделку!</p>
+            {% endfor %}
+        </div>
+
+        <!-- Поле ввода и отправки -->
+        <footer class="chat-input-panel">
+            <input type="text" id="chat-message-input" placeholder="Введите сообщение для игрока..." autofocus autocomplete="off" class="input-cyber">
+            <button id="chat-message-submit" class="btn-cyber">Отправить 🚀</button>
+        </footer>
+
+    </div>
+</div>
+
+<!-- ==========================================================================
+     ВСТРОЕННЫЙ СКРИПТ WEBSOCKET (REAL-TIME ЛОГИКА)
+     ========================================================================== -->
+<script>
+    const roomId = "{{ room.id }}";
+    const currentUsername = "{{ request.user.username }}";
+    const messagesBox = document.getElementById('chat-messages-log');
+    const emptyNotice = document.getElementById('empty-notice');
+
+    // Автоматический скролл чата вниз при загрузке
+    messagesBox.scrollTop = messagesBox.scrollHeight;
+
+    // Подключаемся к WebSocket-серверу ASGI Django Channels
+    const chatSocket = new WebSocket(
+        'ws://' + window.location.host + '/ws/chat/' + roomId + '/'
+    );
+
+    // Срабатывает, когда прилетает сообщение от бэкенда (consumers.py)
+    chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+
+        // Удаляем надпись "Пусто", если она есть
+        if (emptyNotice) emptyNotice.remove();
+
+        // Проверяем, кто отправил лог, для правильного класса разметки
+        const isMyMsg = data.sender_username === currentUsername;
+        const msgClass = isMyMsg ? 'my-msg' : 'their-msg';
+
+        // Создаем новый HTML-элемент сообщения динамически
+        const msgHtml = `
+            <div class="chat-msg-bubble ${msgClass}">
+                <span class="msg-author">${data.sender_username}</span>
+                <p class="msg-text">${data.message}</p>
+                <span class="msg-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+            </div>
+        `;
+
+        messagesBox.insertAdjacentHTML('beforeend', msgHtml);
+        messagesBox.scrollTop = messagesBox.scrollHeight; // Скроллим вниз
+    };
+
+    // Отправка по нажатию кнопки
+    document.getElementById('chat-message-submit').onclick = function() {
+        const inputDom = document.getElementById('chat-message-input');
+        const message = inputDom.value;
+        
+        if (message.trim() !== "") {
+            chatSocket.send(JSON.stringify({
+                'message': message
+            }));
+            inputDom.value = ''; // Очищаем поле ввода
+        }
+    };
+
+    // Отправка по нажатию клавиши Enter
+    document.getElementById('chat-message-input').onkeyup = function(e) {
+        if (e.keyCode === 13) {
+            document.getElementById('chat-message-submit').click();
+        }
+    };
+</script>
+{% endblock %}

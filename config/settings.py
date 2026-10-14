@@ -36,6 +36,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -150,3 +151,14 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 CART_SESSION_ID = 'cart'
 AUTH_USER_MODEL = 'users.CustomUser'
+
+# Настройка очередей сообщений прямо в оперативной памяти сервера
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    },
+}
+ASGI_APPLICATION = 'config.asgi.application'
+
+LOGIN_REDIRECT_URL = 'shop:goods_list'
+LOGOUT_REDIRECT_URL = 'shop:goods_list'

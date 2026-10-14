@@ -3,11 +3,10 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q, Count
-
-from shop.forms import GoodsForm
-from shop.models import Goods, Category
-
 from django.views.decorators.http import require_POST
+from shop.forms import GoodsForm
+from shop.models import Goods, Category, ChatRoom, Message
+
 from .cart import Cart
 
 @login_required
@@ -209,3 +208,63 @@ def cart_detail(request):
     """ Страница просмотра содержимого корзины """
     cart = Cart(request)
     return render(request, 'shop/cart_detail.html', context={'cart': cart})
+
+# чат
+@login_required
+def start_chat(request, goods_id):
+    """Инициирует чат по конкретному товару"""
+    goods = get_object_or_404(Goods, id=goods_id)
+
+    # Игрок не может начать чат с самим собой
+    if goods.seller == request.user:
+        messages.error(request, "Вы не можете открыть чат с самим собой.")
+        return redirect('shop:goods_detail', pk=goods.pk)
+
+    # Ищем существующую комнату или создаем новую
+    room, created = ChatRoom.objects.get_or_create(
+        buyer=request.user,
+        seller=goods.seller,
+        goods=goods
+    )
+    return redirect('shop:chat_room', room_id=room.id)
+
+
+@login_required
+def chat_room_view(request, room_id):
+    """Отображает страницу конкретного чата"""
+    room = get_object_or_404(ChatRoom.objects.select_related('buyer', 'seller', 'goods'), id=room_id)
+
+    # Защита: в чат могут заходить только участники диалога
+    if request.user != room.buyer and request.user != room.seller:
+        messages.error(request, "Доступ к чату заблокирован системой безопасности.")
+        return redirect('shop:goods_list')
+
+    # Загружаем историю сообщений комнаты
+    chat_messages = room.messages.all().select_related('sender')
+
+    context = {
+        'room': room,
+        'chat_messages': chat_messages,
+        # Определяем, кто наш собеседник
+        'interlocutor': room.seller if request.user == room.buyer else room.buyer
+    }
+    return render(request, 'shop/chat_room.html', context=context)
+
+
+@login_required
+def delete_chat_room(request, room_id):
+    """ Полное удаление комнаты чата и всей истории сообщений """
+    room = get_object_or_404(ChatRoom, id=room_id)
+
+    # Система безопасности: удалить чат могут только его участники
+    if request.user != room.buyer and request.user != room.seller:
+        messages.error(request, "У вас нет прав для удаления этого диалога.")
+        return redirect('users:profile', pk=request.user.pk)
+
+    if request.method == 'POST':
+        room.delete()  # Каскадно удалит комнату и все сообщения Message
+        messages.success(request, "Диалог успешно закрыт и удален из базы данных.")
+        return redirect('users:profile', pk=request.user.pk)
+
+    # Показываем страницу подтверждения (опционально, но для безопасности лучше через POST)
+    return redirect('shop:chat_room', room_id=room.id)

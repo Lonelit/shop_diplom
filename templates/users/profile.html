@@ -43,7 +43,45 @@
             {% endif %}
         </div>
     </header>
+    <!-- БЛОК ДИАЛОГОВ (Отображается только мне в моем профиле) -->
+    {% if is_me %}
+        <section class="player-chats-section" style="margin-bottom: 40px;">
+            <h2 class="inventory-title">💬 Ваши активные диалоги</h2>
+            <div class="profile-chats-list" style="display: flex; flex-direction: column; gap: 10px;">
 
+                <!-- Выводим чаты, где текущий пользователь является Покупателем -->
+                {% for chat in request.user.buyer_chats.all %}
+                    <div class="product-card-horizontal" style="min-height: auto; padding: 15px; grid-template-columns: 1fr auto; align-items: center;">
+                        <div>
+                            <span style="color: var(--text-muted); font-size: 13px;">Чат с продавцом:</span>
+                            <strong style="color: var(--neon-blue); font-size: 16px; margin-left: 5px;">{{ chat.seller.username }}</strong>
+                            {% if chat.goods %}
+                                <div style="font-size: 13px; color: var(--text-main); margin-top: 4px;">Лот: «{{ chat.goods.title }}»</div>
+                            {% endif %}
+                        </div>
+                        <a href="{% url 'shop:chat_room' chat.id %}" class="btn-view-item">Открыть чат 🚀</a>
+                    </div>
+                {% empty %}
+                    <!-- Если чатов где он покупатель нет, проверяем чаты где он продавец ниже -->
+                {% endfor %}
+
+                <!-- Выводим чаты, где текущий пользователь является Продавцом -->
+                {% for chat in request.user.seller_chats.all %}
+                    <div class="product-card-horizontal" style="min-height: auto; padding: 15px; grid-template-columns: 1fr auto; align-items: center;">
+                        <div>
+                            <span style="color: var(--text-muted); font-size: 13px;">Чат с покупателем:</span>
+                            <strong style="color: var(--neon-purple); font-size: 16px; margin-left: 5px;">{{ chat.buyer.username }}</strong>
+                            {% if chat.goods %}
+                                <div style="font-size: 13px; color: var(--text-main); margin-top: 4px;">Лот: «{{ chat.goods.title }}»</div>
+                            {% endif %}
+                        </div>
+                        <a href="{% url 'shop:chat_room' chat.id %}" class="btn-view-item">Открыть чат 🚀</a>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </section>
+    {% endif %}
     <!-- НИЖНИЙ БЛОК: Список инвентаря / Витрина товаров -->
     <section class="player-inventory-section">
         <h2 class="inventory-title">🎯 Витрина лотов от {{ profile_user.username }} ({{ goods|length }})</h2>

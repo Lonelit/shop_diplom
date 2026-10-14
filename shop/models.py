@@ -5,6 +5,7 @@ from django.core.validators import MinValueValidator
 from decimal import Decimal
 
 
+
 class Category(models.Model):
     """
     категория
@@ -75,3 +76,67 @@ class Goods(models.Model):
 
     def get_absolute_url(self):
         return reverse('shop:goods_detail', kwargs={'pk': self.pk})
+
+class ChatRoom(models.Model):
+    """
+    Комната диалога (комната чата) между покупателем и продавцом.
+    Привязывается к конкретному товару, чтобы чат шел в контексте сделки.
+    """
+    buyer = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='buyer_chats',
+        verbose_name='Покупатель'
+    )
+    seller = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='seller_chats',
+        verbose_name='Продавец'
+    )
+    goods = models.ForeignKey(
+        'Goods', # Используем строковое имя, если класс Goods объявлен выше
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name='Игровой лот'
+    )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+
+    class Meta:
+        # Это ограничение гарантирует, что между этим покупателем, продавцом
+        # и конкретным товаром будет создана строго ОДНА комната чата.
+        unique_together = ('buyer', 'seller', 'goods')
+        verbose_name = 'Комната чата'
+        verbose_name_plural = 'Комнаты чата'
+
+    def __str__(self):
+        return f"Чат по лоту {self.goods.title if self.goods else 'Удален'} ({self.buyer.username} -> {self.seller.username})"
+
+
+class Message(models.Model):
+    """
+    Конкретное сообщение внутри комнаты чата в режиме реального времени.
+    """
+    room = models.ForeignKey(
+        ChatRoom,
+        on_delete=models.CASCADE,
+        related_name='messages',
+        verbose_name='Комната'
+    )
+    sender = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        verbose_name='Отправитель'
+    )
+    text = models.TextField(verbose_name='Текст сообщения')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Отправлено')
+    is_read = models.BooleanField(default=False, verbose_name='Прочитано')
+
+    class Meta:
+        ordering = ['created_at'] # Сообщения всегда будут выстраиваться по хронологии
+        verbose_name = 'Сообщение чата'
+        verbose_name_plural = 'Сообщения чата'
+
+    def __str__(self):
+        return f"{self.sender.username}: {self.text[:30]}"

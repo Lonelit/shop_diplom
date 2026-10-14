@@ -30,7 +30,9 @@
                     <a href="{% url 'shop:cart_detail' %}" class="nav-cart">🎒 Корзина</a>
                     <form class="inline-form" method="post" action="{% url 'users:logout' %}">
                         {% csrf_token %}
-                        <button type="submit" class="link-button">Выйти</button>
+                        <button type="submit" class="link-button">
+                            Выйти (<span style="color: var(--neon-purple);">{{ user.username }}</span>)
+                        </button>
                     </form>
                 {% else %}
                     <a href="{% url 'users:login' %}">Войти</a>
