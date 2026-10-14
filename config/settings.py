@@ -141,13 +141,6 @@ MAILERS = {
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# AUTH_USER_MODEL = 'users.CustomUser'
-# #куда перевести пользователя при необходимости аутентификации
-# LOGIN_URL = 'users:login'
-# #куда перевести пользователя после аутентификации
-# LOGIN_REDIRECT_URL='shop:main'
-# #куда перевести пользователя после выхода из учетки
-# LOGOUT_REDIRECT_URL='shop:main'
 
 CART_SESSION_ID = 'cart'
 AUTH_USER_MODEL = 'users.CustomUser'

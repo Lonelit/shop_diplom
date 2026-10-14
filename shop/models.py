@@ -95,7 +95,7 @@ class ChatRoom(models.Model):
         verbose_name='Продавец'
     )
     goods = models.ForeignKey(
-        'Goods', # Используем строковое имя, если класс Goods объявлен выше
+        'Goods',
         on_delete=models.SET_NULL,
         null=True,
         blank=True,

@@ -8,10 +8,10 @@ import shop.routing
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
 application = ProtocolTypeRouter({
-    # Стандартный HTTP-протокол (наши обычные views)
+    # Стандартный HTTP-протокол ( views)
     "http": get_asgi_application(),
 
-    # WebSocket-протокол (наш реального времени чат)
+    # WebSocket-протокол (чат реал.вр.)
     "websocket": AuthMiddlewareStack(
         URLRouter(
             shop.routing.websocket_urlpatterns

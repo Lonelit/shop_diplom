@@ -8,7 +8,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         self.room_id = self.scope['url_route']['kwargs']['room_id']
         self.room_group_name = f'chat_{self.room_id}'
 
-        # Подключаем игрока к группе этой комнаты чата
+        # Подключаем покупателя к группе этой комнаты чата
         await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
@@ -16,7 +16,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
     async def disconnect(self, close_code):
-        # Отключаем игрока при закрытии вкладки
+        # Отключаем покупателя при закрытии вкладки
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name

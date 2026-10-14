@@ -84,7 +84,6 @@ def goods_list(request):
         'selected_seller': seller_id,
         'selected_category': category_id,
         'selected_sort': sort,
-        # НОВОЕ: Передаем значения цен обратно в форму, чтобы они не сбрасывались
         'price_min': price_min,
         'price_max': price_max,
         'page_heading': 'Товары',
@@ -266,5 +265,4 @@ def delete_chat_room(request, room_id):
         messages.success(request, "Диалог успешно закрыт и удален из базы данных.")
         return redirect('users:profile', pk=request.user.pk)
 
-    # Показываем страницу подтверждения (опционально, но для безопасности лучше через POST)
     return redirect('shop:chat_room', room_id=room.id)

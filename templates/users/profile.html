@@ -28,7 +28,6 @@
 
             <p class="player-meta">
                 <span>📧 Почта: <strong>{{ profile_user.email|default:"Скрыта" }}</strong></span>
-                <!-- 3. ИСПРАВЛЕНО: profile_user.date_joined вместо user.date_joined -->
                 {% if profile_user.date_joined %}
                     <span class="meta-separator">|</span>
                     <span>Создан: <strong>{{ profile_user.date_joined|date:"d.m.Y" }}</strong></span>

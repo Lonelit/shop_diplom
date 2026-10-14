@@ -333,7 +333,7 @@ a:hover {
 
 .input-wrapper textarea {
     min-height: 120px;
-    resize: vertical; /* Игрок сможет растягивать поле описания по высоте */
+    resize: vertical;
 }
 
 /* Эффект свечения полей при заполнении */
@@ -382,7 +382,7 @@ a:hover {
 
 .form-actions-row .btn-cyber,
 .form-actions-row .btn-secondary {
-    flex: 1; /* Кнопки будут одинакового размера, красиво заполняя низ формы */
+    flex: 1;
 }
 
 .product-detail-container {
@@ -705,7 +705,7 @@ a:hover {
     display: grid;
     grid-template-columns: 200px 1fr; /* Левая колонка 200px под картинку, правая — всё остальное */
     background-color: var(--bg-dark);
-    border: 1px solid rgba(157, 78, 221, 0.3); /* По умолчанию рамка бледно-фиолетовая */
+    border: 1px solid rgba(157, 78, 221, 0.3);
     border-radius: 6px;
     overflow: hidden;
     min-height: 160px;
@@ -787,7 +787,7 @@ a:hover {
     margin-top: auto;
 }
 
-/* Тэг цены — сделаем его ярко-зеленым или неоново-фиолетовым */
+/* Тэг цены */
 .product-price-tag {
     font-size: 18px;
     font-weight: 800;
